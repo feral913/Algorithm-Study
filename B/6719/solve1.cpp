@@ -35,7 +35,6 @@ double solve_algorithm(Input _input)
     vector_int new_num;
     for (int i = 0; i < _input.k; ++i)
     {
-        //cout << " >> item : " << _input.num_list.front() << endl;
         new_num.push_back(_input.num_list.front());
         pop_heap(_input.num_list.begin(), _input.num_list.end());_input.num_list.pop_back();
     }
