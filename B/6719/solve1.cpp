@@ -15,6 +15,23 @@ typedef struct Input {
 }Input;
 //var
 //func
+Input file_input();
+double solve_algorithm(Input _input);
+void file_output(vector_double _output);
+int main()
+{
+    int T;
+    cin >> T;
+    vector_double output;
+    for (int i = 0; i < T; ++i)
+    {
+        Input input = file_input();
+        double answer = solve_algorithm(input);
+        output.push_back(answer);
+    }
+    file_output(output);
+    return 0;
+}
 Input file_input()
 {
     int N, K, item;
@@ -54,18 +71,4 @@ void file_output(vector_double _output)
         cout << fixed;
         cout << "#" << ++i << " " << fixed << (*it) << endl;
     }
-}
-int main()
-{
-    int T;
-    cin >> T;
-    vector_double output;
-    for (int i = 0; i < T; ++i)
-    {
-        Input input = file_input();
-        double answer = solve_algorithm(input);
-        output.push_back(answer);
-    }
-    file_output(output);
-    return 0;
 }
