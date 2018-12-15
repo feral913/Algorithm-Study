@@ -14,7 +14,6 @@ typedef struct Input {
     int n = 0, k = 0;
 }Input;
 //var
-
 //func
 Input file_input()
 {
@@ -33,7 +32,6 @@ double solve_algorithm(Input _input)
 {
     double answer = 0;
     make_heap(_input.num_list.begin(), _input.num_list.end());
-    //reverse
     vector_int new_num;
     for (int i = 0; i < _input.k; ++i)
     {
@@ -41,15 +39,11 @@ double solve_algorithm(Input _input)
         new_num.push_back(_input.num_list.front());
         pop_heap(_input.num_list.begin(), _input.num_list.end());_input.num_list.pop_back();
     }
-    //
-    //cout << endl;
     for (int i = _input.k - 1; i >= 0 ; --i)
     {
-        //cout << " >> in : " << new_num[i] << endl;
         answer += new_num[i];
         answer /= 2;
     }
-    //cout << endl;
     return answer;
 }
 void file_output(vector_double _output)
