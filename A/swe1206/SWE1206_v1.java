@@ -32,8 +32,7 @@ public class SWE1206_v1 {
 			for(int i = 0; i < maxWidth; i++) {
 				bd.setHeight(i, sc.nextInt());
 			}
-			
-			
+						
 			for(int i = 2; i < maxWidth - 2; i++) {
 				int lTopBuilding = 0;
 				int rTopBuilding = 0;
