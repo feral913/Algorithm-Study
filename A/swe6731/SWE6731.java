@@ -1,20 +1,23 @@
 package swe6731;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class Reversi{
 	private char[][] currentDisks;
 	private char[][] nextDisks;
 	private int boardSize;
+	private ArrayList<Character[][]> buff;
 	
 	public Reversi(int boardSize) {
 		this.boardSize = boardSize;
 		currentDisks = new char[boardSize][boardSize];
 		nextDisks = new char[boardSize][boardSize];
+		buff = new ArrayList<Character[][]>();
 	}
 	
-	public char getCurrentDisks(int i, int j) {
-		return currentDisks[i][j];
+	public char[][] getCurrentDisks() {
+		return currentDisks;
 	}
 	
 	public void setCurrentDisks(char[][] disks) {
@@ -35,6 +38,10 @@ class Reversi{
 	public void setDisks(int i, int j) {
 		currentDisks[i][j] ='W';
 		nextDisks[i][j] = 'W';
+	}
+	
+	public ArrayList<Character[][]> getBuff(){
+		return buff;
 	}
 		
 	public void turnover(int i, int j) {
@@ -58,6 +65,39 @@ class Reversi{
 		}
 		
 		return isSame;
+	}
+	
+	public void saveBuffer(char[][] disks) {
+		Character[][] d = new Character[boardSize][boardSize];
+		
+		for(int i = 0; i < boardSize; i++) {
+			for(int j = 0; j < boardSize; j ++) {
+				d[i][j] = new Character(disks[i][j]);
+			}
+		}
+		
+		buff.add(d);
+	}
+	
+	public boolean compareInBuffer(char[][] disks) {
+		boolean isInBuffer = false;
+		
+		for(int k = 0; k < buff.size(); k++) {
+			isInBuffer = true;
+			for(int i = 0; i < boardSize; i++) {
+				for(int j = 0; j < boardSize; j++) {
+					if(buff.get(k)[i][j].charValue() != disks[i][j]) isInBuffer = false;
+				}
+			}
+		}
+
+		return isInBuffer;
+	}
+	
+	public void printDisks(char[][] disks) {
+		for(int i = 0; i < boardSize; i++) {
+			System.out.println(disks[i].clone());
+		}
 	}
 }
 
@@ -86,14 +126,14 @@ public class SWE6731 {
 					rvs.setDisks(i, j);
 				}
 			}
-			
+						
 			isFinish = rvs.compareCG(goalDisks);
 			
 			while(!isFinish) {
 				gameCount++;
 				int circle = gameCount;
 				
-				isFinish = run(N, rvs, circle, goalDisks);
+				isFinish = run(N, rvs, circle, goalDisks, 100, 100);
 			}
 			
 			long endTime = System.currentTimeMillis();
@@ -104,18 +144,24 @@ public class SWE6731 {
 		}
 	}
 	
-	public static boolean run(int N, Reversi rvs, int circle, char[][] goalDisks) {
+	public static boolean run(int N, Reversi rvs, int circle, char[][] goalDisks, int k, int l) {
 		boolean isFinish = false;
 		
 		for(int i = 0; i < N; i++) {
 			for(int j = 0; j < N; j++) {
+				if(k == i && l == j) continue;
+				
 				rvs.turnover(i, j);
+				
+				if(rvs.compareInBuffer(rvs.getNextDisks())) continue;
+				else rvs.saveBuffer(rvs.getNextDisks());
+				
 				if(circle > 1) {
 					Reversi trvs = new Reversi(N);
 					trvs.setCurrentDisks(rvs.getNextDisks());
 					circle--;
 					
-					isFinish = run(N, trvs, circle, goalDisks);
+					isFinish = run(N, trvs, circle, goalDisks, i, j);
 					
 					circle++;
 				}
