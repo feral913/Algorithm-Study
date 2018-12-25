@@ -6,20 +6,15 @@ class NumBoard{
 	private int numLength;
 	private int[] numSrc;
 	private int number;
-	private int[] numList;
-	private int numListCount = 0;
+	private int largestNum;
 	
 	public NumBoard(int numLength, int tradeChance) {
 		this.numLength = numLength;
 		numSrc = new int[numLength];
-		
-		int k = 1;
-		
-		for(int i = 0; i < numLength; i++) {
-			k *= numLength - i;
-		}
-		k *= tradeChance;
-		numList = new int[k];
+	}
+	
+	public int[] getNumSrc() {
+		return numSrc;
 	}
 	
 	public void setNumSrc(int i, int num) {
@@ -27,23 +22,15 @@ class NumBoard{
 	}
 	
 	public int getNumber() {
-		toInteger();
 		return number;
 	}
 	
-	public int[] getNumList() {
-		return numList;
+	public int getLargestNum() {
+		return largestNum;
 	}
 	
-	public void setNumList(int i, int num) {
-		this.numList[i] = num;
-	}
-	
-	public void setNumListCount(int numListCount) {
-		this.numListCount = numListCount;
-	}
-	public int getNumListCount() {
-		return numListCount;
+	public void setLargestNum(int num) {
+		if(largestNum < num) largestNum = num;
 	}
 	
 	public void tradeBoard(int i, int j) {
@@ -62,7 +49,7 @@ class NumBoard{
 }
 
 public class SWE1244 {
-
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
@@ -80,32 +67,29 @@ public class SWE1244 {
 
 			trade(str.length(), tradeChance, nb);
 
-			int result = 0;
-			
-			for(int i = 0; i < nb.getNumListCount(); i++) {
-				if(result < nb.getNumList()[i]) result = nb.getNumList()[i];
-				//System.out.println(nb.getNumList()[i]);
-			}
-			
-			System.out.println("#" + testCase + " " + result);
+			System.out.println("#" + testCase + " " + nb.getLargestNum());
 		}
 
 	}
 	
 	public static void trade(int numLength, int tradeChance, NumBoard nb) {
 		for(int i = 0; i < numLength; i++) {
-			for(int j = i; j < numLength; j++) {
-				nb.tradeBoard(i, j);
-				tradeChance--;
+			for(int j = i + 1; j < numLength; j++) {
+				if(nb.getNumSrc()[i] == nb.getNumSrc()[j]) continue;
 				
-				if(tradeChance > 0) trade(numLength, tradeChance, nb);
-				else {
-					nb.setNumList(nb.getNumListCount(), nb.getNumber());
+				if(tradeChance > 1) {
 					nb.tradeBoard(i, j);
-					nb.setNumListCount(nb.getNumListCount() + 1);
+					nb.toInteger();
+					tradeChance--;
+					trade(numLength, tradeChance, nb);
+					tradeChance++;
+				} else {
+					nb.tradeBoard(i, j);
+					nb.toInteger();
+					nb.setLargestNum(nb.getNumber());
+					nb.tradeBoard(i, j);
+					nb.toInteger();
 				}
-				
-				tradeChance++;
 			}
 		}
 	}
