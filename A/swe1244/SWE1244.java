@@ -74,20 +74,22 @@ public class SWE1244 {
 	
 	public static void trade(int numLength, int tradeChance, NumBoard nb) {
 		for(int i = 0; i < numLength; i++) {
-			for(int j = i; j < numLength; j++) {
+			for(int j = i + 1; j < numLength; j++) {
 				if(nb.getNumSrc()[i] == nb.getNumSrc()[j]) continue;
 				
-				nb.tradeBoard(i, j);
-				nb.toInteger();
-				tradeChance--;
-				
-				if(tradeChance > 0) trade(numLength, tradeChance, nb);
-
-				nb.setLargestNum(nb.getNumber());
-				nb.tradeBoard(i, j);
-				nb.toInteger();
-				
-				tradeChance++;
+				if(tradeChance > 1) {
+					nb.tradeBoard(i, j);
+					nb.toInteger();
+					tradeChance--;
+					trade(numLength, tradeChance, nb);
+					tradeChance++;
+				} else {
+					nb.tradeBoard(i, j);
+					nb.toInteger();
+					nb.setLargestNum(nb.getNumber());
+					nb.tradeBoard(i, j);
+					nb.toInteger();
+				}
 			}
 		}
 	}
