@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <stack>
+#include <queue>
 using namespace std;
 //
 //backtracking problem
@@ -8,13 +8,38 @@ using namespace std;
 //def
 typedef vector < int > vtype;
 typedef vtype::iterator vit_type;
-typedef struct point{
-    int x;
-    int y;
-}point;
+typedef queue < int > qtype;
 typedef struct square_matrix {
+    square_matrix(int _n) { for (uint i = 0; i < _n; ++i) { val.push_back(0);}}
     square_matrix(int _n, vtype _val) { n = _n, val = _val;}
-    bool isBlack(point _p) {return val[n * _p.x + _p.y] == 1? 1 : 0;}
+    bool isBlack(int _x, int _y) { return val [n * _x + _y] == 1? 1 : 0;}
+    bool isSame(vtype _dst) {
+        uint i;
+        for (i = 0; i < _dst.size() && val[i] == _dst[i]; ++i);
+        return i == (_dst.size() - 1);
+    }
+    bool isSame(square_matrix _dst) { return isSame(_dst.val);}
+    void setPaint(int _point) {
+        int r = _point / n, c = _point % n;
+        setRow(r, 0, n - 1);
+        setCol(c, 0, n - 1);
+        val[n * r + c] == 1? 0 : 1;
+    }
+    qtype getChildFrom(int _point) {
+        int except_r = _point / n, except_c = _point % n;
+        int cur_row = -1, cur_col;
+        qtype major, minor, child;
+        for (uint i = 0; i < val.size(); ++i) {
+            cur_col = i % n;
+            if (cur_col == 0) { cur_row++;}  //set row
+            if (except_r != cur_row || except_c != cur_col) {
+                major.push(i);  //major priority
+            } else if (cur_row ){ minor.push(i);}//minor priority
+        }
+        while(!major.empty()) {child.push(major.front());major.pop();}
+        while(!minor.empty()) {child.push(minor.front());minor.pop();}
+        return child;
+    }
     void setRow(int _row, int _from, int _to) {
         for (int c = _from; c <= _to; ++c) {
             int state = val[n * _row + c];
@@ -22,10 +47,10 @@ typedef struct square_matrix {
         }
     }
     void setCol(int _col, int _from, int _to) {
-      for (int r = _from; r <= _to; ++r) {
-          int state = val[n * _col + r];
-          state == 1? 0 : 1;  //현재 상태가 B면 W로 변환
-      }
+        for (int r = _from; r <= _to; ++r) {
+            int state = val[n * _col + r];
+            state == 1? 0 : 1;  //현재 상태가 B면 W로 변환
+        }
     }
     vtype val;
     int n;
@@ -48,18 +73,27 @@ int main()
     file_output(output);
     return 0;
 }
+//reverse-traversal
+void backtracking(Square _cur_matrix, qtype _child, Square _target) {
+    while (!_child.empty()) {
+        int i = _child.front();_child.pop();
+        qtype new_child = _cur_matrix.getChildFrom(i);
+        _cur_matrix.setPaint(i);
+        //check
+        if (_cur_matrix.isSame(_target)) {return;}
+        else { backtracking(_cur_matrix, new_child, _target);}
+    }
+}
 int solve_algorithm(Square _target)
-{
-    //backtracking 문제
-    //
-    //0.초기 시작 stack을 따로 두고 별도의 stack 만들거나
-    //하나의 스택으로 다 구현할것
-    //1. 현재 스택에서 가능한 좌표들(= 선택된 영역에 속하지 않은 녀석들)을 스택에 추가
-    //2. 추가된 요소에 대하여 "요건 판별"(오셀로 색칠 가능 여부) = 결과값과 비교하는 과정
-    //3. 가능하다면 가능한 좌표들을 스택에 추가하고, 그렇지 않다면 버리고 다음 값을 꺼내온다.
-    //1-3을 반복한다.
-    // 재귀적으로 풀수도 있을 듯
-    return 0;
+{   //initilizing
+    int count, n = _target.n;
+    Square init_square(n);
+    qtype init_child;for (int i = 0; i < n; ++i) { init_child.push(i);}
+    //backtracking
+    for (count = 0; count < n; ++count) {
+        backtracking(init_square, init_child, _target);
+    }
+    return count;
 }
 Square file_input()
 {
