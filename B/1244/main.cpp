@@ -78,6 +78,8 @@ bool IsDuplicated(vtype& src)
 vtype solve_algorithm(Input _rule)
 {
 		const uint MAX_CUR = _rule.num.size() - 2;
+		const vtype BASE_RAW = sort(_rule.num.begin(), _rule.num.end());
+		
 		uint cur = 0;
 		while(_rule.count > 0) {
 				cout << " #### cycle start #### " << endl;
@@ -116,7 +118,10 @@ vtype solve_algorithm(Input _rule)
 						//78466 6
 						cur++;
 				}
+				//
 				//32888 2
+				//23888 2
+				//
 				//
 				//cur이 최대 비교 지점까지 도달하면
 				else {
