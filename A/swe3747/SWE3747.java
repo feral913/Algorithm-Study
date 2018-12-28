@@ -58,18 +58,30 @@ public class SWE3747 {
 				}
 			}
 			
-			// 바닥을 가지고 있는 스택의 번호, 바닥 플레이트 번호, 바닥 중 가장 위 플레이트 번호.
+			// 바닥을 가지고 있는 스택의 번호, 바닥 플레이트 번호, 바닥 중 천장 플레이트 번호.
 			int[] bottomIndex;
-			bottomIndex = findBottom(ps);
-			
-			// 이렇게 가져온 번호들로 기존의 스택을 쪼개고
-			// 쪼갠 바닥은 새로운 스택 리스트에 집어넣고
-			// 남은 윗부분은 기존의 스택 리스트에 기존 스택을 지우고 넣는다.
-			// 이 과정을 반복해서 스택을 전부 쪼갠 다음에 순서대로 다시 합친다.
-			
 			// 전부 다 쪼개진 스택들을 저장 할 새로운 Platestack 객체 타입 리스트 생성
 			List<Platestack> splitPs = new ArrayList<Platestack>();
+
+			int result = 0;
 			
+			while(ps.size() > 0) {
+				bottomIndex = findBottom(ps);
+				
+				// 이렇게 가져온 번호들로 기존의 스택을 쪼개고
+				// 쪼갠 바닥은 새로운 스택 리스트에 집어넣고
+				// 남은 윗부분은 기존의 스택 리스트에 기존 스택을 지우고 넣는다.
+				// 이 과정을 반복해서 스택을 전부 쪼갠 다음에 순서대로 다시 합친다.
+				// 그런데, 이 과정을 언제까지 반복할 것인가. 당연히 더이상 스택을 쪼갤 필요 없을 때 까진데, 그걸 어떻게 확인할 것인가.
+				
+				if(bottomIndex[2] != 0) result++;
+				
+				split(bottomIndex, ps, splitPs);
+			}
+			
+			result = join(splitPs, result);
+			
+			System.out.println("#" + testCase + " " + result);
 		}
 	}
 
@@ -78,17 +90,20 @@ public class SWE3747 {
 	
 	// 먼저 다 쪼개기 위해서 스택 별 바닥부터 크기비교 쭉 해서 쪼갤 경계를 찾는다.
 	// 하나로 합쳐진 새로운 스택의 바닥부터 부분부분 구해낸다.
+	// + 더 이상 쪼갤 필요 없는 경우를 알아낸다.
+	// 지름이 가장 큰 플레이트를 가진 스택의 나머지 플레이트 들도 다른 스택의 플레이트들보다 더 크다.
+	// 그러면 그 스택은 더 이상 쪼갤 필요 없이 그대로 새로운 스택 리스트에 들어간다.
 	public static int[] findBottom(List<Platestack> ps) {
-		// 지름이 가장 큰 플레이트의 지름과 인덱스.
+		// 지름이 가장 큰 플레이트의 지름과 번호.
 		int bottom = 0;
 		int bottomIndex = 0;
-		// 지름이 가장 큰 플레이트를 가지고 있는 스택의 인덱스.
+		// 지름이 가장 큰 플레이트를 가지고 있는 스택의 번호.
 		int botStackIndex = 0;
-		// 바닥이 될 스택의 가장 윗부분 플레이트의 지름과 인덱스.
+		// 바닥이 될 스택의 가장 윗부분 플레이트의 지름과 번호.
 		int botTop = 0;
 		int botTopIndex = 0;
 		
-		// 스택 중 지름이 가장 큰 플레이트를 찾고 해당 스택의 인덱스 저장.
+		// 스택 중 지름이 가장 큰 플레이트를 찾고 해당 스택의 번호 저장.
 		for(int i = 0; i < ps.size(); i++) {
 			// 현재 스택의 가장 바닥 플레이트 번호.
 			int stackBottomIndex = ps.get(i).getStHeight() - 1;
@@ -107,40 +122,91 @@ public class SWE3747 {
 			// 같은 게 있는지, 더 큰 게 있는지.
 			boolean equalCheck = false;
 			boolean biggerCheck = false;
+			boolean smallerCheck = false;
 			
 			for(int j = 0; j < ps.size(); j++) {
 				if(j == botStackIndex) continue;
 				
 				for(int k = ps.get(j).getStHeight() - 1; k >= 0; k--) {
-					// 바닥이 될 스택의 현재 플레이트와 지름이 같은 플레이트가 있으면 현재 플레이트를 바닥 스택의 가장 위 플레이트로 설정
-					// 바닥이 될 스택의 현재 플레이트보다 더 큰 지름의 플레이트가 있으면 이전 플레이트를 바닥 스택의 가장 위 플레이트로 설정
+					// 바닥이 될 스택의 현재 플레이트와 지름이 같은 플레이트가 있으면 현재 플레이트를 바닥 스택의 천장 플레이트로 설정
+					// 바닥이 될 스택의 현재 플레이트보다 더 큰 지름의 플레이트가 있으면 이전 플레이트를 바닥 스택의 천장 플레이트로 설정
 					if(botTop == ps.get(j).getStDiameter()[k]) equalCheck = true;
 					else if(botTop < ps.get(j).getStDiameter()[k]) biggerCheck = true;
+					else smallerCheck = true;
 				}
 			}
 			
-			if(equalCheck) {
+			if(equalCheck && smallerCheck) {
 				botTopIndex = i;
 				break;
 			} else if (biggerCheck){
 				botTop = ps.get(botStackIndex).getStDiameter()[i + 1];
 				botTopIndex = i + 1;
 				break;
+			} else {
+				botTopIndex = i;
 			}
 		}
 		
-		// 바닥을 가지고 있는 스택의 번호, 바닥 플레이트의 번호, 바닥의 가장 위 플레이트의 번호.
+		// 바닥을 가지고 있는 스택의 번호, 바닥 플레이트의 번호, 바닥의 천장 플레이트의 번호.
 		int[] result = {botStackIndex, bottomIndex, botTopIndex};
 		
 		return result;
 	}
 
-	public static void split() {
+	// 쪼갤 스택의 번호와 해당 스택에서 쪼개야 할 플레이트의 바닥과 천장 번호가 있을 때 어떻게 쪼개고 어떤 값을 반환할 것인가.
+	// 쪼개어진 스택들만 저장하는 리스트에 새로운 스택을 만들고 쪼개야 할 플레이트의 바닥부터 천장까지 저장한다.
+	// 쪼개고 남은 스택의 일부는 초기 스택 리스트에 새롭게 저장하고 쪼개어진 스택은 삭제한다.
+	public static void split(int[] bottomIndex, List<Platestack> ps, List<Platestack> splitPs) {
+		// 바닥의 번호에서 천장의 번호를 빼서 쪼갤 스택의 높이를 정한다.
+		int splitHeight = bottomIndex[1] - bottomIndex[2] + 1;
 		
+		// 쪼개어진 스택들만 저장하는 리스트에 새로운 스택을 생성한다.
+		splitPs.add(new Platestack(splitHeight));
+		
+		for(int i = 0; i < splitHeight; i++) {
+			// 새롭게 생성된 스택에 플레이트 지름 정보 저장
+			int splitPlate = ps.get(bottomIndex[0]).getStDiameter()[bottomIndex[1] - i];
+			splitPs.get(splitPs.size() - 1).setStDiameter(i, splitPlate);
+		}
+		
+		// 초기 스택 리스트에서 쪼개고 남은 스택을 새롭게 추가한다.
+		if(bottomIndex[2] != 0) {
+			int remainHeight = ps.get(bottomIndex[0]).getStHeight() - splitHeight;
+			ps.add(new Platestack(remainHeight));
+			for(int i = 0; i < remainHeight; i++) {
+				int remainDiameter = ps.get(bottomIndex[0]).getStDiameter()[i];
+				ps.get(ps.size() - 1).setStDiameter(i, remainDiameter);
+			}
+		}
+		// 초기 스택의 리스트에서 쪼개어진 스택을 지운다.
+		ps.remove(bottomIndex[0]);
 	}
 	
-	public static void join() {
+	// 다 쪼개어진 스택들이 있는 리스트를 하나의 스택으로 합친다.
+	// 리스트에 크기 순으로 정렬되어 있기 때무에 순서대로 쌓기만 하면 된다.
+	public static int join(List<Platestack> splitPs, int result) {
+		int[] finalStack;
 		
+		int finStSize = 0;
+		for(int i = 0; i < splitPs.size(); i++) {
+			for(int j = 0; j < splitPs.get(i).getStHeight(); j++) {
+				finStSize++;
+			}
+			result++;
+		}
+		
+		finalStack = new int[finStSize];
+		
+		int finStIndex = 0;
+		for(int i = 0; i < splitPs.size(); i++) {
+			for(int j = 0; j < splitPs.get(i).getStHeight(); j++) {
+				finalStack[finStIndex] = splitPs.get(i).getStDiameter()[j];
+				finStIndex++;
+			}
+		}
+		
+		return result - 1;
 	}
 	
 }
