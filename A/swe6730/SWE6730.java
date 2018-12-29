@@ -2,11 +2,11 @@ package swe6730;
 
 import java.util.Scanner;
 
-// ºí·Ï °´Ã¼
+// ë¸”ë¡ ê°ì²´
 class Block{
 	private int blockNum;
-	private int[] blockHeight; // ³ôÀÌ°¡ ´Ù¸¥ ºí·Ï ¹è¿­
-	// °æÁÖ ³­ÀÌµµ : ¿Ã¶ó°¥ ¶§ °¡Àå ½ÉÇÑ ³ôÀÌ º¯È­¿Í ³»·Á°¥ ¶§ °¡Àå ½ÉÇÑ ³ôÀÌ º¯È­
+	private int[] blockHeight; // ë†’ì´ê°€ ë‹¤ë¥¸ ë¸”ë¡ ë°°ì—´
+	// ê²½ì£¼ ë‚œì´ë„ : ì˜¬ë¼ê°ˆ ë•Œ ê°€ì¥ ì‹¬í•œ ë†’ì´ ë³€í™”ì™€ ë‚´ë ¤ê°ˆ ë•Œ ê°€ì¥ ì‹¬í•œ ë†’ì´ ë³€í™”
 	private int upLevel;
 	private int downLevel;
 	
@@ -17,7 +17,7 @@ class Block{
 		downLevel = 0;
 	}
 	
-	// ºí·Ï º° ³ôÀÌ ÀúÀå
+	// ë¸”ë¡ ë³„ ë†’ì´ ì €ì¥
 	public void setBlockHeight(int i, int blockHeight) {
 		this.blockHeight[i] = blockHeight;
 	}
@@ -26,8 +26,8 @@ class Block{
 		return upLevel;
 	}
 	
-	// ºÙ¾î ÀÖ´Â ¿À¸¥ÂÊ ºí·Ï ³ôÀÌ - ¿ŞÂÊ ºí·Î ³ôÀÌ = ¿Ã¶ó°¥ ¶§ ³ôÀÌ
-	// ±× Áß °¡Àå Å« °ª ÀúÀå
+	// ë¶™ì–´ ìˆëŠ” ì˜¤ë¥¸ìª½ ë¸”ë¡ ë†’ì´ - ì™¼ìª½ ë¸”ë¡œ ë†’ì´ = ì˜¬ë¼ê°ˆ ë•Œ ë†’ì´
+	// ê·¸ ì¤‘ ê°€ì¥ í° ê°’ ì €ì¥
 	public void setUpLevel() {
 		int diff;
 		
@@ -41,8 +41,8 @@ class Block{
 		return downLevel;
 	}
 	
-	// ºÙ¾î ÀÖ´Â ¿ŞÂÊ ºí·Ï ³ôÀÌ - ¿À¸¥ÂÊ ºí·Ï ³ôÀÌ = ³»·Á°¥ ¶§ ³ôÀÌ
-	// ±×Áß °¡Àå Å« °ª ÀúÀå
+	// ë¶™ì–´ ìˆëŠ” ì™¼ìª½ ë¸”ë¡ ë†’ì´ - ì˜¤ë¥¸ìª½ ë¸”ë¡ ë†’ì´ = ë‚´ë ¤ê°ˆ ë•Œ ë†’ì´
+	// ê·¸ì¤‘ ê°€ì¥ í° ê°’ ì €ì¥
 	public void setDownLevel() {
 		int diff;
 		
