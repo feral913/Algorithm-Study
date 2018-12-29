@@ -1,3 +1,8 @@
+/*
+ * 플레이트가 크기 순으로 피라미드 형태로 쌓여있는 여러 스택이 있다.
+ * 해당 스택들을 하나의 스택으로 합치자.
+ * 이때 크기 순으로 쌓을 수 있도록 쪼갰다가(split) 합치는(join) 최소 횟수를 구하자. 
+ */
 package swe3747;
 
 import java.util.ArrayList;
@@ -82,6 +87,13 @@ public class SWE3747 {
 			result = join(splitPs, result);
 			
 			System.out.println("#" + testCase + " " + result);
+			
+/*			int[] check = {5, 2, 0, 0, 5, 5, 7, 15, 5, 3, 27, 0, 9, 7, 5, 10, 5, 3, 1, 19,
+					37, 22, 171, 189, 49, 4851, 4949, 3641, 2165, 1410, 1394, 1998, 1583, 1172,
+					1739, 1791, 4843, 4811, 4843, 4819, 4847};
+			
+			if(result == check[testCase - 1]) System.out.println("#" + testCase + " " + result + " Yes");
+			else System.out.println("#" + testCase + " " + result + " No");*/ 
 		}
 	}
 
@@ -96,29 +108,61 @@ public class SWE3747 {
 	public static int[] findBottom(List<Platestack> ps) {
 		// 지름이 가장 큰 플레이트의 지름과 번호.
 		int bottom = 0;
-		int bottomIndex = 0;
+		int bottomIndex =  -1;
 		// 지름이 가장 큰 플레이트를 가지고 있는 스택의 번호.
 		int botStackIndex = 0;
 		// 바닥이 될 스택의 가장 윗부분 플레이트의 지름과 번호.
 		int botTop = 0;
 		int botTopIndex = 0;
+		int temp = Integer.MAX_VALUE;
 		
 		// 스택 중 지름이 가장 큰 플레이트를 찾고 해당 스택의 번호 저장.
 		for(int i = 0; i < ps.size(); i++) {
 			// 현재 스택의 가장 바닥 플레이트 번호.
 			int stackBottomIndex = ps.get(i).getStHeight() - 1;
 			
-			if(bottom < ps.get(i).getStDiameter()[stackBottomIndex]) {
+			// 제일 밑에 있는 플레이트의 지름이 가장 큰 스택을 찾는다.
+			if(bottom <= ps.get(i).getStDiameter()[stackBottomIndex]) {
 				bottom = ps.get(i).getStDiameter()[stackBottomIndex];
-				botStackIndex = i;
+				
+			}
+		}
+		
+		// 지름이 가장 큰 플레이트를 여러 스택들이 동일하게 갖고 있다면
+		// 지름이 가장 큰 플레이트 위의 플레이트 지름이 가장 작은 스택을 선택한다.
+		// 문제발생. 지름이 가장 큰 플레이트 위에 더 이상 플레이트가 없는 경우를 확인하지 못한다.
+		for(int i = 0; i < ps.size(); i++) {
+			int stackBottomIndex = ps.get(i).getStHeight() - 1;
+			if(ps.get(i).getStDiameter()[stackBottomIndex] < bottom) continue;
+			if(bottomIndex == -1) bottomIndex = stackBottomIndex;
+
+			if(ps.get(i).getStDiameter()[0] == bottom) {
 				bottomIndex = stackBottomIndex;
+				botStackIndex = i;
+				break;
+			}
+			
+			if(ps.get(i).getStDiameter()[stackBottomIndex] == bottom) {
+				for(int j = ps.get(i).getStHeight() - 1; j >= 0 ; j--) {
+					if(ps.get(i).getStDiameter()[j] < bottom) {
+						if(temp > ps.get(i).getStDiameter()[j]) {
+							temp = ps.get(i).getStDiameter()[j];
+
+							bottomIndex = stackBottomIndex;
+							botStackIndex = i;
+						}
+						break;
+					}
+				}
 			}
 		}
 		
 		// 바닥이 될 스택의 가장 윗부분 플레이트를 찾는다.
 		// 지름이 가장 큰 플레이트를 가진 스택의 밑에서부터 다른 스택의 플레이트들과 크기를 비교한다.
 		for(int i = ps.get(botStackIndex).getStHeight() - 1; i >= 0; i--) {
+			if(i != 0 && ps.get(botStackIndex).getStDiameter()[i - 1] == bottom) continue;
 			botTop = ps.get(botStackIndex).getStDiameter()[i];
+			if(i != 0 && ps.get(botStackIndex).getStDiameter()[i - 1] == botTop) continue;
 			// 같은 게 있는지, 더 큰 게 있는지.
 			boolean equalCheck = false;
 			boolean biggerCheck = false;
@@ -136,7 +180,7 @@ public class SWE3747 {
 				}
 			}
 			
-			if(equalCheck && smallerCheck) {
+			if(!biggerCheck && equalCheck && smallerCheck) {
 				botTopIndex = i;
 				break;
 			} else if (biggerCheck){
