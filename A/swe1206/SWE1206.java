@@ -1,14 +1,14 @@
 /*
- * xÃàÀº °Ç¹°ÀÌ ³õÀÎ Ä­, yÃàÀº °Ç¹°ÀÇ ³ôÀÌ(Ãþ¼ö)ÀÌ´Ù.
- * ±âÁØ °Ç¹°ÀÇ ¿ÞÂÊ, ¿À¸¥ÂÊ °¢ µÎÄ­ ³»¿¡ ÀÖ´Â °Ç¹°¿¡ °¡¸®Áö ¾Ê´Â ¸¸Å­ ÇØ´ç °Ç¹°Àº Á¶¸Á±ÇÀÌ È®º¸µÈ´Ù.
- * Å×½ºÆ® ÄÉÀÌ½º ³» ÀüÃ¼ °Ç¹°¿¡¼­ Á¶¸Á±ÇÀÌ È®º¸µÈ ÃÑ ÃþÀÇ ¼ö¸¦ ±¸ÇÏ¶ó.
+ * xì¶•ì€ ê±´ë¬¼ì´ ë†“ì¸ ì¹¸, yì¶•ì€ ê±´ë¬¼ì˜ ë†’ì´(ì¸µìˆ˜)ì´ë‹¤.
+ * ê¸°ì¤€ ê±´ë¬¼ì˜ ì™¼ìª½, ì˜¤ë¥¸ìª½ ê° ë‘ì¹¸ ë‚´ì— ìžˆëŠ” ê±´ë¬¼ì— ê°€ë¦¬ì§€ ì•ŠëŠ” ë§Œí¼ í•´ë‹¹ ê±´ë¬¼ì€ ì¡°ë§ê¶Œì´ í™•ë³´ëœë‹¤.
+ * í…ŒìŠ¤íŠ¸ ì¼€ì´ìŠ¤ ë‚´ ì „ì²´ ê±´ë¬¼ì—ì„œ ì¡°ë§ê¶Œì´ í™•ë³´ëœ ì´ ì¸µì˜ ìˆ˜ë¥¼ êµ¬í•˜ë¼.
  */
 
 package swe1206;
 
 import java.util.Scanner;
 
-// °Ç¹° º° ³ôÀÌ Á¤º¸¸¦ °®´Â Building °´Ã¼.
+// ê±´ë¬¼ ë³„ ë†’ì´ ì •ë³´ë¥¼ ê°–ëŠ” Building ê°ì²´.
 class Building{
 	private int[] height;
 	
@@ -40,9 +40,9 @@ public class SWE1206 {
 				bd.setHeight(i, sc.nextInt());
 			}
 
-			// °¡Àå ¿ÞÂÊ°ú ¿À¸¥ÂÊ °¢°¢ µÎÄ­(0, 1, maxWidth - 1, maxWidth - 2)¿¡´Â °Ç¹°ÀÌ ¾ø´Ù.
-			// ±âÁØ °Ç¹°¿¡ ´ëÇØ¼­ ÁÂ¿ì µÎÄ­ ³»¿¡ ÀÖ´Â °Ç¹°µé Áß °¡Àå ³ôÀº °Ç¹°ÀÇ ³ôÀÌ¸¦ ±¸ÇÑ´Ù.
-			// ¸¸¾à ±âÁØ °Ç¹°ÀÌ ÁÂ¿ì µÎÄ­ ³»¿¡ ÀÖ´Â °Ç¹° Áß °¡Àå ³ôÀº °Ç¹°º¸´Ù ³ô´Ù¸é, ±âÁØ °Ç¹°¿¡¼­ °¡Àå ³ôÀº °Ç¹°ÀÇ ³ôÀÌ¸¦ »« ¸¸Å­ ±âÁØ °Ç¹°Àº Á¶¸Á±ÇÀÌ È®º¸µÈ ÃþÀ» °®°í ÀÖ´Ù.
+			// ê°€ìž¥ ì™¼ìª½ê³¼ ì˜¤ë¥¸ìª½ ê°ê° ë‘ì¹¸(0, 1, maxWidth - 1, maxWidth - 2)ì—ëŠ” ê±´ë¬¼ì´ ì—†ë‹¤.
+			// ê¸°ì¤€ ê±´ë¬¼ì— ëŒ€í•´ì„œ ì¢Œìš° ë‘ì¹¸ ë‚´ì— ìžˆëŠ” ê±´ë¬¼ë“¤ ì¤‘ ê°€ìž¥ ë†’ì€ ê±´ë¬¼ì˜ ë†’ì´ë¥¼ êµ¬í•œë‹¤.
+			// ë§Œì•½ ê¸°ì¤€ ê±´ë¬¼ì´ ì¢Œìš° ë‘ì¹¸ ë‚´ì— ìžˆëŠ” ê±´ë¬¼ ì¤‘ ê°€ìž¥ ë†’ì€ ê±´ë¬¼ë³´ë‹¤ ë†’ë‹¤ë©´, ê¸°ì¤€ ê±´ë¬¼ì—ì„œ ê°€ìž¥ ë†’ì€ ê±´ë¬¼ì˜ ë†’ì´ë¥¼ ëº€ ë§Œí¼ ê¸°ì¤€ ê±´ë¬¼ì€ ì¡°ë§ê¶Œì´ í™•ë³´ëœ ì¸µì„ ê°–ê³  ìžˆë‹¤.
 			for(int i = 2; i < maxWidth - 2; i++) {
 				int lTopBuilding = 0;
 				int rTopBuilding = 0;
