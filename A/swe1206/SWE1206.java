@@ -27,7 +27,6 @@ class Building{
 
 public class SWE1206 {
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
 		for(int testCase = 1; testCase <= 10; testCase++) {
