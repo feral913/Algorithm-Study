@@ -87,13 +87,6 @@ public class SWE3747 {
 			result = join(splitPs, result);
 			
 			System.out.println("#" + testCase + " " + result);
-			
-/*			int[] check = {5, 2, 0, 0, 5, 5, 7, 15, 5, 3, 27, 0, 9, 7, 5, 10, 5, 3, 1, 19,
-					37, 22, 171, 189, 49, 4851, 4949, 3641, 2165, 1410, 1394, 1998, 1583, 1172,
-					1739, 1791, 4843, 4811, 4843, 4819, 4847};
-			
-			if(result == check[testCase - 1]) System.out.println("#" + testCase + " " + result + " Yes");
-			else System.out.println("#" + testCase + " " + result + " No");*/ 
 		}
 	}
 
