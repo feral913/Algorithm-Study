@@ -3,7 +3,7 @@
  * 이 중 세 점을 선택하여 만들어진 삼각형 중에서 넓이가 A/2 이상, B/2 이하인 것의 개수를 구하자.
  */
 
-package swe6742;
+package SWE.swe6742;
 
 import java.util.Scanner;
 
