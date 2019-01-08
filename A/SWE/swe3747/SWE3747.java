@@ -3,7 +3,7 @@
  * 해당 스택들을 하나의 스택으로 합치자.
  * 이때 크기 순으로 쌓을 수 있도록 쪼갰다가(split) 합치는(join) 최소 횟수를 구하자. 
  */
-package swe3747;
+package SWE.swe3747;
 
 import java.util.ArrayList;
 import java.util.List;
