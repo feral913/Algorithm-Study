@@ -7,7 +7,7 @@
  * 각각의 난이도를 구하자.
  */
 
-package swe6730;
+package SWE.swe6730;
 
 import java.util.Scanner;
 
