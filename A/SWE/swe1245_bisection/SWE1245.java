@@ -6,7 +6,7 @@
  * 물체에 작용하는 양쪽의 힘이 같은 지점을 찾아라.
  * N개의 자성체가 있다면 N-1개의 균형점이 존재한다.
  */
-package swe1245_bisection;
+package SWE.swe1245_bisection;
 
 import java.util.Scanner;
 
