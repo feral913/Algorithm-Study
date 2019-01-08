@@ -1,12 +1,20 @@
-package swe6731;
+/*
+ * N * N 크기의 오델로 게임판이 있다.
+ * 각 칸에는 한쪽면은 흰색, 반대쪽 면은 검은색인 원판이 놓여있다.
+ * 최초의 게임판은 모든 원판이 흰샌면으로 되어있다.
+ * i, j를 선택하면 i번째 행과 j번째 열에 해당하는 모든 원판이 뒤집어진다.
+ * 게임판의 최종 상태가 주어질 때, 최초의 게임판에서 몇회가 지났을 때 최종 상태가 될 수 있는지 그 최소값을 구하자.
+ */
+package SWE.swe6731;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// 
 class Reversi{
+	private int boardSize;
 	private char[][] currentDisks;
 	private char[][] nextDisks;
-	private int boardSize;
 	private ArrayList<Character[][]> buff;
 	
 	public Reversi(int boardSize) {
@@ -14,6 +22,10 @@ class Reversi{
 		currentDisks = new char[boardSize][boardSize];
 		nextDisks = new char[boardSize][boardSize];
 		buff = new ArrayList<Character[][]>();
+	}
+	
+	public int getBoardSize() {
+		return boardSize;
 	}
 	
 	public char[][] getCurrentDisks() {
@@ -133,7 +145,7 @@ public class SWE6731 {
 				gameCount++;
 				int circle = gameCount;
 				
-				isFinish = run(N, rvs, circle, goalDisks, 100, 100);
+				isFinish = solve(rvs, circle, goalDisks, 100, 100);
 			}
 			
 			long endTime = System.currentTimeMillis();
@@ -144,7 +156,11 @@ public class SWE6731 {
 		}
 	}
 	
-	public static boolean run(int N, Reversi rvs, int circle, char[][] goalDisks, int k, int l) {
+	public static boolean solve(Reversi rvs, int circle, char[][] goalDisks, int k, int l) {
+		int N = rvs.getBoardSize();
+		
+		if(rvs.compareCG(goalDisks)) return true;
+		
 		boolean isFinish = false;
 		
 		for(int i = 0; i < N; i++) {
@@ -159,11 +175,7 @@ public class SWE6731 {
 				if(circle > 1) {
 					Reversi trvs = new Reversi(N);
 					trvs.setCurrentDisks(rvs.getNextDisks());
-					circle--;
-					
-					isFinish = run(N, trvs, circle, goalDisks, i, j);
-					
-					circle++;
+					isFinish = solve(trvs, circle - 1, goalDisks, i, j);
 				}
 				
 				if(!isFinish) {
