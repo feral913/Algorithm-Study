@@ -5,7 +5,7 @@
  * 각 버스정류장에 몇개의 버스 노선이 지나가는지 구하자.
  */
 
-package swe6485;
+package SWE.swe6485;
 
 import java.util.Scanner;
 
