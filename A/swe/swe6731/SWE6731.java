@@ -7,7 +7,107 @@
  */
 package swe.swe6731;
 
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
+
+// 1단계에서는 한번만 바꿔서 나올 수 있는 모든 경우를 조사하고,
+// 2단계에서는 두번 바꿔서 나올 수 있는 모든 경우를 조사하는 방식으로 완전탐색을 수행하면서
+// 몇단계에서 목표가 발견되는지 확인한다.
+// 처음에 했던 방법은 1단계, 1단계 + 2단계, 다음 1단계 + 2단계 + 3단계 형식으로 loop가 안그래도 많은데 어마어마하게 돌렸다.
+// 중복 loop가 안돌게 만들어보자.
+class Reversi{
+	private char[][] goal;
+	
+	public Reversi(int N) {
+		goal = new char[N][N];
+	}
+	
+	public char[][] getGoal() {
+		return goal;
+	}
+	
+	public char getGoal(int i, int j) {
+		return goal[i][j];
+	}
+	
+	public void setGoal(int i, char[] line) {
+		System.arraycopy(line, 0, goal[i], 0, line.length);
+	}
+	
+	public boolean compareBoard(char[][] board) {
+		boolean isSame = true;
+		
+		isSame = Arrays.deepEquals(goal, board);
+		
+		return isSame;
+	}
+}
+
+public class SWE6731 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		int T = sc.nextInt();
+		
+		for(int testCase = 1; testCase < T; testCase++) {
+			int N = sc.nextInt();
+			char[][] board = new char[N][N];
+			
+			Reversi rvs = new Reversi(N);
+			
+			for(int i = 0; i < N; i++) {
+				char[] line = new char[N];
+				line = sc.next().toCharArray();
+				rvs.setGoal(i, line);
+				
+				for(int j = 0; j < N; j++) {
+					board[i][j] = 'W';
+				}
+			}
+			
+			int cycle = 0;
+			char[][][] buf = new char[Integer.MAX_VALUE][N][N];
+			
+			while(true) {
+				solve(board, rvs, cycle, buf);
+				cycle++;
+			}
+			
+			//System.out.println(solve(board, rvs, cycle));
+		}
+	}
+	
+	public static boolean solve(char[][] board, Reversi rvs, int cycle, char[][][] buf) {
+		boolean ret = rvs.compareBoard(board);
+		
+		if(cycle == 0) return ret;
+		else {
+			for(int i = 0; i < rvs.getGoal().length; i++) {
+				for(int j = 0; j < rvs.getGoal().length; j++) {
+					
+				}
+			}
+		}
+		
+		return ret;
+	}
+	
+	public static char[][] turnover(char[][] board, int i, int j){
+		for(int x = 0; x < board.length; x++) {
+			if(board[x][j] == 'W') board[x][j] = 'B';
+			else board[x][j] = 'W';
+		}
+		
+		for(int y = 0; y < board.length; y++) {
+			if(board[i][y] == 'W') board[i][y] = 'B';
+			else board[i][y] = 'W';
+		}
+		
+		return board;
+	}
+}
+
+/*import java.util.ArrayList;
 import java.util.Scanner;
 
 // 
@@ -38,9 +138,9 @@ class Reversi{
 				currentDisks[i][j] = disks[i][j];
 			}
 		}
-/*		for(int i = 0; i < boardSize; i++) {
+		for(int i = 0; i < boardSize; i++) {
 			currentDisks[i] = disks[i].clone();
-		}*/
+		}
 	}
 	
 	public char[][] getNextDisks() {
@@ -188,4 +288,4 @@ public class SWE6731 {
 		return isFinish;
 	}
 	
-}
+}*/
