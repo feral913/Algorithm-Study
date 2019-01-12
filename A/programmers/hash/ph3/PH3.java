@@ -10,7 +10,9 @@
  */
 package programmers.hash.ph3;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 // 의상의 이름과 종류를 저장하는 객체.
 class Clothes{
@@ -37,27 +39,36 @@ class Clothes{
 // 의상의 종류별로 나눠서...
 // 오 뭔가 좋은 생각이 떠올랐다.
 // 조합을 다 만들어내는 알고리즘이 아니라 부위별로 의상의 개수를 구한 다음에 부위별 의상의 개수를 곱하는 식으로 구해보자.
+// 1 = 1.
+// 1, 2 = 1 + 2 + 1 * 2.
+// 1, 2, 3 = 1 + 2 + 3 + 1 * 2 + 1 * 3 + 2 * 3 + 1 * 2 * 3.
+// 1, 2, 3, 4 = 1 + 2 + 3 + 4 + 1 * 2 + 1 * 3 + 1 * 4 + 2 * 3 + 2 * 4 + 3 * 4 + 1 * 2 * 3 + ...
+// 그렇게 곱하려면 결국 조합을 만들어야겠다..
 class Solution{
 	public int solution(String[][] clothes) {
 		int answer = 0;
 		
-		HashMap<String, Integer> hm1 = new HashMap<>();
+		HashMap<String, Integer> hm = new HashMap<>();
 		
 		for(int i = 0; i < clothes.length; i++) {
-			if(!hm1.containsKey(clothes[i][1]))
-				hm1.put(clothes[i][1], 1);
-			else hm1.put(clothes[i][1], hm1.get(clothes[i][1]) + 1);
+			if(!hm.containsKey(clothes[i][1]))
+				hm.put(clothes[i][1], 1);
+			else hm.put(clothes[i][1], hm.get(clothes[i][1]) + 1);
+		}
+		
+		ArrayList<Object> arr = new ArrayList<>();
+		for(Object o : hm.keySet()) {
+			arr.add(o);
 		}
 
-		if(hm1.size() > 1) {
-			answer = 1;
-			for(Object o : hm1.keySet()) {
-				answer *= hm1.get(o);
-			}
-		}
-		answer += clothes.length;
-		
 		return answer;
+	}
+	
+	public int com(HashMap<String, Integer> hm, ArrayList<Object> arr, int answer) {
+		
+		
+		
+		return 0;
 	}
 }
 
