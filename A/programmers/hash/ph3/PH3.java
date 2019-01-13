@@ -4,7 +4,7 @@
  * 서로 다른 옷의 조합의 수를 구하자.
  * clothes의 각 행은 [의상 이름, 의상 종류]로 이루어져 있다.
  * 의상의 수는 1개 이상 30개 이하이다.
- * 같은 이름을 가진 의상은 존재하지 않는다.
+ * 같은 이름을 가진 의상은 존재하지 않는다. -> 중복되는 의상이 없다. 의상의 이름에는 신경 쓸 필요 없다.
  * clothes의 모든 원소는 문자열로 이루어져 있다.
  * 모든 문자열의 길이는 1 이상 20 이하인 자연수이고 알파벳 소문자 또는 '_'로만 이루어져 있다.
  */
@@ -13,6 +13,7 @@ package programmers.hash.ph3;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Scanner;
 
 // 의상의 이름과 종류를 저장하는 객체.
 class Clothes{
@@ -26,8 +27,9 @@ class Clothes{
 		return clothes;
 	}
 	
-	public void setClothes(String[][] clothes) {
-		System.arraycopy(clothes, 0, this.clothes, 0, clothes.length);
+	public void setClothes(int i, String clothesName, String clothesType) {
+		clothes[i][0] = clothesName;
+		clothes[i][1] = clothesType;
 	}
 }
 
@@ -44,47 +46,69 @@ class Clothes{
 // 1, 2, 3 = 1 + 2 + 3 + 1 * 2 + 1 * 3 + 2 * 3 + 1 * 2 * 3.
 // 1, 2, 3, 4 = 1 + 2 + 3 + 4 + 1 * 2 + 1 * 3 + 1 * 4 + 2 * 3 + 2 * 4 + 3 * 4 + 1 * 2 * 3 + ...
 // 그렇게 곱하려면 결국 조합을 만들어야겠다..
+// 됐다. 근데 다 되는데 한가지 테스트 케이스에서 시간초과가 난다. 30가지 모두 다른 의상의 종류로 돌려보니 시간이 엄청 오래 걸린다. 어떻게 줄일 수 있을까.
 class Solution{
 	public int solution(String[][] clothes) {
 		int answer = 0;
 		
+		// HashMap Key에 의상 종류, Value에 의상 수를 저장한다.
 		HashMap<String, Integer> hm = new HashMap<>();
-		
 		for(int i = 0; i < clothes.length; i++) {
 			if(!hm.containsKey(clothes[i][1]))
 				hm.put(clothes[i][1], 1);
 			else hm.put(clothes[i][1], hm.get(clothes[i][1]) + 1);
 		}
 		
+		// 의상 종류를 ArrayList에 따로 저장한다. 
 		ArrayList<Object> arr = new ArrayList<>();
 		for(Object o : hm.keySet()) {
 			arr.add(o);
 		}
-
+		
+		// 가능한 의상 종류 조합에서 의상 종류 별 의상 수를 저장할 배열.
+		int[] intArr = new int[hm.size()];
+		for(int i = 1; i <= hm.size(); i++) {
+			answer = comb(intArr, 0, i, hm, arr, 0, answer);
+		}
+		
 		return answer;
 	}
 	
-	public int com(HashMap<String, Integer> hm, ArrayList<Object> arr, int answer) {
+	public int comb(int[] intArr, int index, int r, HashMap<String, Integer> hm, ArrayList<Object> arr, int target, int answer) {
+		if(r == 0) {
+			int temp = 1;
+			for(int i = 0; i < index; i++) {
+				temp *= intArr[i];
+			}
+			answer += temp;
+			return answer;
+		}
+		else if (target == hm.size()) return answer;
+		else {
+			intArr[index] = hm.get(arr.get(target));
+			answer = comb(intArr, index + 1, r - 1, hm, arr, target + 1, answer);
+			answer = comb(intArr, index, r, hm, arr, target + 1, answer);
+		}
 		
-		
-		
-		return 0;
+		return answer;
 	}
 }
 
 public class PH3 {
 	public static void main(String[] args) {
-		Solution sol = new Solution();
-
-		String[][] clothes1 = {{"yellow_hat", "headgear"}, {"blu_sunglasses", "eyewear"}, {"green_turban", "headgear"}};
-		Clothes clo1 = new Clothes(clothes1.length);
-		clo1.setClothes(clothes1);
-		System.out.println(sol.solution(clo1.getClothes()));
+		Scanner sc = new Scanner(System.in);
+		int T = sc.nextInt();
 		
-		String[][] clothes2 = {{"crow_mask", "face"}, {"blue_sunglasses", "face"}, {"smoky_makeup", "face"}};
-		//String[][] clothes2 = {{"crow_mask", "face"}, {"blue_sunglasses", "face1"}, {"smoky_makeup", "face1"}};
-		Clothes clo2 = new Clothes(clothes2.length);
-		clo2.setClothes(clothes2);
-		System.out.println(sol.solution(clo2.getClothes()));
+		for(int testCase = 0; testCase < T; testCase++) {
+			int N = sc.nextInt();
+			Clothes clo = new Clothes(N);
+			for(int i = 0; i < N; i++) {
+				clo.setClothes(i, sc.next(), sc.next());
+			}
+			
+			Solution sol = new Solution();
+			System.out.println(sol.solution(clo.getClothes()));
+			
+		}
 	}
 }
