@@ -1,18 +1,18 @@
 /*
- * ¼º¼ö°¡ ¿À´Ã µéÀ» ¼ö ÀÖ´Â °­ÁÂµéÀÇ ¼öÁØÀÌ ÁÖ¾îÁø´Ù.
- * ÀÌ Áß ¼º¼ö°¡ ¿À´Ã µéÀ» ¼ö ÀÖ´Â °­ÁÂÀÇ °³¼ö°¡ ÁÖ¾îÁø´Ù.
- * ( ¼º¼öÀÇ ±âÁ¸ ½Ç·Â + °­ÁÂ ¼öÁØ ) / 2 ÀÇ °ø½Ä¿¡ µû¶ó ¼º¼öÀÇ ½Ç·ÂÀÌ º¯ÇÑ´Ù.
- * µéÀ» ¼ö ÀÖ´Â °­ÁÂ ¼ö¿Í °­ÁÂ ·¹º§À» °í·ÁÇÏ¿© ¼º¼öÀÇ ÃÖÁ¾ ½Ç·ÂÀÌ ÃÖ´ë°ªÀÌ µÇ°Ô ÇÏÀÚ.
+ * ì„±ìˆ˜ê°€ ì˜¤ëŠ˜ ë“¤ì„ ìˆ˜ ìžˆëŠ” ê°•ì¢Œë“¤ì˜ ìˆ˜ì¤€ì´ ì£¼ì–´ì§„ë‹¤.
+ * ì´ ì¤‘ ì„±ìˆ˜ê°€ ì˜¤ëŠ˜ ë“¤ì„ ìˆ˜ ìžˆëŠ” ê°•ì¢Œì˜ ê°œìˆ˜ê°€ ì£¼ì–´ì§„ë‹¤.
+ * ( ì„±ìˆ˜ì˜ ê¸°ì¡´ ì‹¤ë ¥ + ê°•ì¢Œ ìˆ˜ì¤€ ) / 2 ì˜ ê³µì‹ì— ë”°ë¼ ì„±ìˆ˜ì˜ ì‹¤ë ¥ì´ ë³€í•œë‹¤.
+ * ë“¤ì„ ìˆ˜ ìžˆëŠ” ê°•ì¢Œ ìˆ˜ì™€ ê°•ì¢Œ ë ˆë²¨ì„ ê³ ë ¤í•˜ì—¬ ì„±ìˆ˜ì˜ ìµœì¢… ì‹¤ë ¥ì´ ìµœëŒ€ê°’ì´ ë˜ê²Œ í•˜ìž.
  */
 
-package swe6719;
+package swe.swe6719;
 
 import java.util.Scanner;
 
 class Sungsoo{
 	private float codingLevel;
 
-	// ÃÖÃÊ ¼º¼öÀÇ ÇÁ·Î±×·¡¹Ö ½Ç·ÂÀº 0
+	// ìµœì´ˆ ì„±ìˆ˜ì˜ í”„ë¡œê·¸ëž˜ë° ì‹¤ë ¥ì€ 0
 	public Sungsoo() {
 		this.codingLevel = 0;
 	}
@@ -21,21 +21,21 @@ class Sungsoo{
 		return this.codingLevel;
 	}
 	
-	// °­ÁÂ¸¦ µéÀ» ¶§¸¶´Ù '(±âÁ¸ ½Ç·Â + °­ÁÂ ¼öÁØ) / 2' ¸¸Å­ ½Ç·Â º¯È­
+	// ê°•ì¢Œë¥¼ ë“¤ì„ ë•Œë§ˆë‹¤ '(ê¸°ì¡´ ì‹¤ë ¥ + ê°•ì¢Œ ìˆ˜ì¤€) / 2' ë§Œí¼ ì‹¤ë ¥ ë³€í™”
 	public void setCodingLevel(int classLevel) {
 		codingLevel = (codingLevel + classLevel) / 2;
 	}
 }
 
 class TodayClass{
-	// ¸ðµç °­ÁÂÀÇ ¼ö, ¿À´Ã µéÀ» ¼ö ÀÖ´Â °­ÁÂÀÇ ¼ö
+	// ëª¨ë“  ê°•ì¢Œì˜ ìˆ˜, ì˜¤ëŠ˜ ë“¤ì„ ìˆ˜ ìžˆëŠ” ê°•ì¢Œì˜ ìˆ˜
 	int allClassNum;
 	int selectedClassNum;
-	// ¸ðµç °­ÁÂÀÇ ¼öÁØ ¸®½ºÆ®, ¿À´Ã µéÀ» ¼ö ÀÖ´Â °­ÁÂÀÇ ¼öÁØ ¸®½ºÆ®
+	// ëª¨ë“  ê°•ì¢Œì˜ ìˆ˜ì¤€ ë¦¬ìŠ¤íŠ¸, ì˜¤ëŠ˜ ë“¤ì„ ìˆ˜ ìžˆëŠ” ê°•ì¢Œì˜ ìˆ˜ì¤€ ë¦¬ìŠ¤íŠ¸
 	int[] allClass;
 	int[] selectedClass;
 	
-	// °´Ã¼ »ý¼º ½Ã °­ÁÂ ¼ö ¸ÕÀú ¹Þ¾Æ¿À°í ¼öÁØÀº ¹è¿­ °´Ã¼ »ý¼º¸¸
+	// ê°ì²´ ìƒì„± ì‹œ ê°•ì¢Œ ìˆ˜ ë¨¼ì € ë°›ì•„ì˜¤ê³  ìˆ˜ì¤€ì€ ë°°ì—´ ê°ì²´ ìƒì„±ë§Œ
 	public TodayClass(int allClassNum, int selectedClassNum) {
 		this.allClassNum = allClassNum;
 		this.selectedClassNum = selectedClassNum;
@@ -43,7 +43,7 @@ class TodayClass{
 		this.selectedClass = new int[selectedClassNum];
 	}
 	
-	// ¸ðµç °­ÁÂ ¼öÁØ ÀúÀå
+	// ëª¨ë“  ê°•ì¢Œ ìˆ˜ì¤€ ì €ìž¥
 	public void setAllClass(int[] allClass) {
 		this.allClass = allClass;
 	}
@@ -52,16 +52,16 @@ class TodayClass{
 		return this.selectedClass[i];
 	}
 	
-	// ³»¸²Â÷¼øÀ¸·Î Á¤·ÄµÈ ¸ðµç °­ÁÂ Áß ¿À´Ã µéÀ» ¼ö ÀÖ´Â °­ÁÂ °³¼ö¸¸Å­ ´Ù½Ã ¿À´ÃÂ÷¼øÀ¸·Î ÀúÀå
-	// - ³·Àº ¼öÁØºÎÅÍ µé¾î¾ß °è»êÇßÀ» ¶§ ÃÖÁ¾ °á°ú°¡ Á¡Á¡ ³ô¾ÆÁö±â ¶§¹®
+	// ë‚´ë¦¼ì°¨ìˆœìœ¼ë¡œ ì •ë ¬ëœ ëª¨ë“  ê°•ì¢Œ ì¤‘ ì˜¤ëŠ˜ ë“¤ì„ ìˆ˜ ìžˆëŠ” ê°•ì¢Œ ê°œìˆ˜ë§Œí¼ ë‹¤ì‹œ ì˜¤ëŠ˜ì°¨ìˆœìœ¼ë¡œ ì €ìž¥
+	// - ë‚®ì€ ìˆ˜ì¤€ë¶€í„° ë“¤ì–´ì•¼ ê³„ì‚°í–ˆì„ ë•Œ ìµœì¢… ê²°ê³¼ê°€ ì ì  ë†’ì•„ì§€ê¸° ë•Œë¬¸
 	public void setSelectedClass() {
 		for(int i = 0; i < selectedClassNum; i++) {
 			selectedClass[i] = allClass[selectedClassNum - i - 1];
 		}
 	}
 	
-	// ¸ðµç °­ÁÂ ³»¸²Â÷¼ø Á¤·Ä
-	// - °­ÁÂ°¡ ³ôÀº ¼ö¾÷µé¸¸ °ñ¶óµè±â À§ÇØ¼­
+	// ëª¨ë“  ê°•ì¢Œ ë‚´ë¦¼ì°¨ìˆœ ì •ë ¬
+	// - ê°•ì¢Œê°€ ë†’ì€ ìˆ˜ì—…ë“¤ë§Œ ê³¨ë¼ë“£ê¸° ìœ„í•´ì„œ
 	public void sortAllClass() {
 		for(int i = 0; i < allClassNum; i++) {
 			for(int j = i + 1; j < allClassNum; j++) {
@@ -75,19 +75,19 @@ class TodayClass{
 	}
 }
 
-public class SWE6719_re {
+public class SWE6719 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 		
-		// Test case ¼ö
+		// Test case ìˆ˜
 		int T = sc.nextInt();
 
 		for(int testCase = 1; testCase <= T; testCase++) {
-			// ¿À´ÃÀÇ ÃÑ °­ÁÂ ¼ö
+			// ì˜¤ëŠ˜ì˜ ì´ ê°•ì¢Œ ìˆ˜
 			int N = sc.nextInt();
-			// ¿À´Ã µéÀ» ¼ö ÀÖ´Â °­ÁÂ ¼ö
+			// ì˜¤ëŠ˜ ë“¤ì„ ìˆ˜ ìžˆëŠ” ê°•ì¢Œ ìˆ˜
 			int K = sc.nextInt();
 			
 			Sungsoo ss = new Sungsoo();

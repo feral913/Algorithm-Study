@@ -1,12 +1,21 @@
-package swe6730;
+/*
+ * N개의 연속된 블록의 높이가 주어진다.
+ * 왼쪽에서 오른쪽으로 블록을 타고 넘어갈 때,
+ * 다음 블록의 높이가 더 높으면 올라가야 하고, 더 낮으면 내려가야 한다.
+ * 올라가야 하는 높이 변화 중 가장 큰 값이 올라갈 때의 난이도이다.
+ * 내려가야 하는 높이 변화 중 가장 큰 값이 내려갈 때의 난이도이다.
+ * 각각의 난이도를 구하자.
+ */
+
+package swe.swe6730;
 
 import java.util.Scanner;
 
-// ���� ��ü
+// 블록 객체
 class Block{
 	private int blockNum;
-	private int[] blockHeight; // ���̰� �ٸ� ���� �迭
-	// ���� ���̵� : �ö� �� ���� ���� ���� ��ȭ�� ������ �� ���� ���� ���� ��ȭ
+	private int[] blockHeight; // 높이가 다른 블록 배열
+	// 경주 난이도 : 올라갈 때 가장 심한 높이 변화와 내려갈 때 가장 심한 높이 변화
 	private int upLevel;
 	private int downLevel;
 	
@@ -17,7 +26,7 @@ class Block{
 		downLevel = 0;
 	}
 	
-	// ���� �� ���� ����
+	// 블록 별 높이 저장
 	public void setBlockHeight(int i, int blockHeight) {
 		this.blockHeight[i] = blockHeight;
 	}
@@ -26,8 +35,8 @@ class Block{
 		return upLevel;
 	}
 	
-	// �پ� �ִ� ������ ���� ���� - ���� ���� ���� = �ö� �� ����
-	// �� �� ���� ū �� ����
+	// 붙어 있는 오른쪽 블록 높이 - 왼쪽 블로 높이 = 올라갈 때 높이
+	// 그 중 가장 큰 값 저장
 	public void setUpLevel() {
 		int diff;
 		
@@ -41,8 +50,8 @@ class Block{
 		return downLevel;
 	}
 	
-	// �پ� �ִ� ���� ���� ���� - ������ ���� ���� = ������ �� ����
-	// ���� ���� ū �� ����
+	// 붙어 있는 왼쪽 블록 높이 - 오른쪽 블록 높이 = 내려갈 때 높이
+	// 그중 가장 큰 값 저장
 	public void setDownLevel() {
 		int diff;
 		
