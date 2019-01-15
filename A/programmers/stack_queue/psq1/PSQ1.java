@@ -16,7 +16,9 @@
  */
 package programmers.stack_queue.psq1;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Queue;
 
 // 레이저 배치(괄호)를 문자열로 저장하는 객체.
 class Arrangements{
@@ -35,9 +37,66 @@ class Arrangements{
 	}
 }
 
+// 문제에 주어진 예시 그림을 보고 곰곰히 생각해봤다.
+// 괄호가 열릴 때 쇠막대기 수를 추가하고 괄호가 닫힐 때 쇠막대기 수를 감소시키자.
+// 그리고 괄호가 닫히는 순간의 쇠막대기 수를 생각한다.
+// 괄호가 하나 열리자 마자 닫히면 쇠막대기가 없다.
+// 괄호가 두번 열리고 닫히면 쇠막대기 하나의 잘린 왼쪽 부분을 답에 더해준다.
+// 괄호가 네번 열리고 닫혔다면 쇠막대기 세개가 한번에 잘렸으니 3을 더해준다.
+// 이런식으로 과정을 진행하면서 이전 괄호의 모양을 고려하여 쇠막대기가 끝났는지 이어지는지를 확인한다.
+// 우선은 Queue로 해결했다.
+// Stack으로 한다면 어떻게 해결될지, 효율을 비교했을 때 어떤게 더 나은지 하번 생각해봐야겠다.
 class Solution{
 	public int solution(String arrangement) {
 		int answer = 0;
+		
+		// 괄호를 입력한 순서대로 뽑아내기 위해 queue를 사용한다.
+		Queue<Character> queue = new ArrayDeque<>();
+		for(int i = 0; i < arrangement.length(); i++) {
+			queue.add(arrangement.charAt(i));
+		}
+		
+		// pipe : 쇠막대기 수. preArr : 이전 괄호.
+		int pipe = 0;
+		char preArr = 0;
+		// queue가 빌 때 까지 반복문을 수행한다.
+		while(!queue.isEmpty()) {
+			// currArr : 현재 괄호.
+			char currArr = queue.poll();
+			
+			// 괄호가 열리면 쇠막대기 수를 하나 추가해준다.
+			// 더 이상 할 작업이 없기 때문에 이전 괄호에 현재 괄호를 저장한다.
+			if(currArr == '(') {
+				pipe++;
+				preArr = currArr; 
+			} else {
+				// 괄호가 닫히면 쇠막대기 수를 하나 감소한다.
+				// 이때의 쇠막대기 수가 현재 한번에 잘리는 쇠막대기의 수이다.
+				pipe--;
+				// 쇠막대기가 있으면. 
+				if(pipe > 0) {
+					if(currArr != preArr) {
+						// 이전 괄호와 현재 괄호가 다르면 레이저가 있는 위치다.
+						// 레이저가 pipe 만큼의 쇠막대기를 한번에 자르면 잘려나간 부분을 세어준다.
+						answer += pipe;
+					} else {
+						// 이전 괄호와 현재 괄호가 다르면 가장 위에 있는 쇠막대기의 끝이다.
+						// 쇠막대기의 끝부분을 세어준다.
+						answer++;
+					}
+				} else {
+					if(currArr == preArr) {
+						// pipe가 0인 경우 중에 이전 괄호와 현재 괄호가 같은 경우는 마지막 쇠막대기의 끝인 경우이다.
+						// 마지막 쇠막대기의 끝부분을 세어준다.
+						answer++;
+					}
+				}
+				
+				// 작업이 끝났기 때문에 이전 괄호에 현재 괄호를 저장한다.
+				preArr = currArr;
+			}
+		}
+		
 		return answer;
 	}
 }
