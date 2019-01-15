@@ -17,7 +17,6 @@ package programmers.hash.ph4;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Scanner;
 
 class History{
