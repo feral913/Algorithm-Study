@@ -1,4 +1,10 @@
-1
+3
+3
+1 1 2
+1 1 3
+6
+classic pop classic pop classic classic
+500 600 150 2500 500 500
 5
 classic pop classic classic pop
 500 600 150 800 2500
