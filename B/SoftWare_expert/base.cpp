@@ -8,6 +8,7 @@ int main()
 {
     vtype output;
     int test_case;
+
     cin >> test_case;
     while (test_case-- > 0) {
         T input = file_input();
