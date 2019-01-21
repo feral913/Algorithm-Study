@@ -23,6 +23,11 @@
  */
 package programmers.stack_queue.psq3;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Queue;
+
+// 다리의 길이와 다리가 견딜 수 있는 무게를 정수로 갖는 다리 객체.
 class Bridge{
 	private int length;
 	private int weight;
@@ -41,6 +46,7 @@ class Bridge{
 	}
 }
 
+// 트럭들의 무게를 정수 배열로 갖는 트럭 객체.
 class Trucks{
 	private int[] weights;
 	
@@ -59,7 +65,48 @@ class Trucks{
 
 class Solution{
     public int solution(int bridge_length, int weight, int[] truck_weights) {
+    	// answer : 경과 시간. remainLength : 트럭이 더 올라올 수 있는 남은 길이.
         int answer = 0;
+        int remainLength = bridge_length;
+        
+        // wQueue : 다리를 건너기 위해 대기 중인 트럭. bQueue : 다리를 건너는(다리 위에 있는) 트럭.
+        Queue<Integer> wQueue = new ArrayDeque<>();
+        Queue<Integer> bQueue = new ArrayDeque<>();
+        for(int w : truck_weights) wQueue.add(w);
+        
+        // 현재 다리를 건너는 각 트럭이 다리를 건너기 위해 남은 거리.
+        ArrayList<Integer> arr = new ArrayList<>();
+        
+        // 다리를 건너기 위해 대기 중이거나 다리를 건너는 중인 트럭이 없을 때까지 작업을 수행한다.
+        while(!wQueue.isEmpty() || !bQueue.isEmpty()) {
+        	// 다리를 건너고 있는 트럭이 있으면, 각 트럭을 한칸 전진시킨다(다리를 건너기 위해 남은 거리 - 1).
+        	if(!bQueue.isEmpty()) {
+        		for(int i = 0; i < arr.size(); i++) {
+        			arr.set(i, arr.get(i) - 1);
+        			// 막약 트럭이 다리를 다 건넜으면(남은 거리가 0이면) 현재 다리의 무게에 건너간 트럭의 무게를 더한다. 다리를 건너고 있는 트럭 queue와 arraylist에서 해당 트럭을 삭제하고, 다리에 트럭이 올라올 수 있는 남은 길이도 + 1 해준다.
+        			if(arr.get(i) == 0) {
+        				weight += bQueue.peek();
+        				bQueue.poll();
+        				arr.remove(i);
+        				remainLength++;
+        				// arraylist에서 원소 하나가 삭제되었기 때문에 삭제된 원소 이후 원소들의 번호가 1씩 줄어들었다. 탐색중인 번호 i도 같이 - 1 해준다.
+        				i--;
+        			}
+        		}
+        	}
+        	
+        	// 다리를 건너기 위해 대기 중인 트럭이 있고, 현재 다리가 견딜 수 있는 무게에서 대기중인 다음 트럭의 무게를 뺀 값이 0보다 크거나 같을 때, 다리에 트럭이 더 올라올 수 있는 길이가 남아 있을 때
+        	// 대기 중인 트럭의 queue에서 트럭을 한대 뽑아 다리를 건너는 트럭의 queue로 옮긴다.
+        	// 다리가 견딜 수 있는 무게에서 다리를 건너는 트럭의 무게를 뺀다. 남은 다리 길이를 줄이고, 추가된 트럭이 다리를 건너기 위해 남은 거리를 arraylist에 추가해준다.
+        	if(!wQueue.isEmpty() && weight - wQueue.peek() >= 0 && remainLength > 0) {
+        		weight -= wQueue.peek();
+        		bQueue.add(wQueue.poll());
+        		arr.add(bridge_length);
+        		remainLength--;
+        	}
+        	
+        	answer++;
+        }
         
         return answer;
     }
