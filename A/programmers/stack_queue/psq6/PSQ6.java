@@ -11,6 +11,10 @@
  */
 package programmers.stack_queue.psq6;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
+
+// 주식 가격 정보를 저장하는 객체.
 class Stocks{
 	private int[] prices;
 	
@@ -24,10 +28,43 @@ class Stocks{
 	}
 }
 
+// 가장 첫번째 주식 가격을 선택한다. - Queue에 가격들을 저장해놓고 저장된 순서대로 가격을 꺼낸다.
+// 선택된 가격과 이후의 가격들을 비교한다. - prices 배열에 저장된 가격 중 현재 주식 이후의 가격과 순서대로 비교한다. 이를 위해 현재 주식의 번호를 체크한다.
+// 가격을 비교할 때마다 시간을 카운트한다(그 시간만큼 이후의 가격이니).
+// 가격이 더 작으면 비교를 종료하고 현재까지 카운트 된 시간을 출력 값에 저장한다.
 class Solution{
 	public int[] solution(int[] prices) {
-		int[] answer = {};
+		// aQueue : 출력 할 answer 값을 저장하는 queue. pQueue : 주식 가격들을 저장할 queue.
+		// 주식 가격들을 queue에 저장한다.
+		// currStock : 현재 주식의 번호.
+		Queue<Integer> aQueue = new ArrayDeque<>();
+		Queue<Integer> pQueue = new ArrayDeque<>();
+		for(int i : prices) pQueue.add(i);
+		int currStock = 0;
 		
+		// 마지막 주식까지 작업을 수행한다(pQueue가 빌 때까지).
+		while(!pQueue.isEmpty()) {
+			// currPrice : 현재 주식의 가격. time : 현재 주식의 가격이 떨어질 때까지의 시간.
+			int currPrice = pQueue.poll();
+			int time = 0;
+			
+			// 이후의 주식 가격들과 비교한다.
+			// 시간을 더해주면서 비교하다가 가격이 더 작아지면 작업을 종료한다.
+			for(int i = currStock + 1; i < prices.length; i++) {
+				time++;
+				if(currPrice > prices[i]) break;
+			}
+			
+			// 출력 값에 카운트된 시간을 저장한다.
+			// 다음 주식으로 넘어간다.
+			aQueue.add(time);
+			currStock++;
+		}
+		
+		int[] answer = new int[aQueue.size()];
+		for(int i = 0; i < answer.length; i++) {
+			answer[i] = aQueue.poll();
+		}
 		
 		return answer;
 	}
