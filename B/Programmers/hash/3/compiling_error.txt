@@ -1,0 +1,13 @@
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/hash/3/solve1.cpp: In function ‘int solution(std::vector<std::vector<std::__cxx11::basic_string<char> > >)’:
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/hash/3/solve1.cpp:63:20: error: ‘hash’ was not declared in this scope
+         int ckey = hash <string>{}(clothes[ctype][ctype]);
+                    ^
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/hash/3/solve1.cpp:63:32: error: expected primary-expression before ‘>’ token
+         int ckey = hash <string>{}(clothes[ctype][ctype]);
+                                ^
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/hash/3/solve1.cpp:63:33: error: expected primary-expression before ‘{’ token
+         int ckey = hash <string>{}(clothes[ctype][ctype]);
+                                 ^
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/hash/3/solve1.cpp:63:35: error: expected ‘,’ or ‘;’ before ‘(’ token
+         int ckey = hash <string>{}(clothes[ctype][ctype]);
+                                   ^
