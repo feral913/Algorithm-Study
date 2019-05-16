@@ -8,7 +8,7 @@ using namespace std;
 */
 typedef vector<string> vstype;
 typedef vector<vstype> vvstype;
-vvstype clothes = {{"yellow_hat", "headgear"}, {"blue_sunglasses", "eyewear"}, {"green_turban", "headgear"}};
+vvstype clothes = {{"yellow_hat", "headgear"}, {"blue_sunglasses", "headgear"}, {"green_turban", "headgear"}};
 
 int solution(vector < vstype > clothes);
 int main() {
@@ -17,40 +17,28 @@ int main() {
 }
 int solution(vector < vstype > clothes) {
     map < int, int > countOfClotheType;
-    int* category;
-    //의상 분류
+    //1. 의상 분류
     int cname = 0, ctype = 1;
+    //해싱값이 더 빠르지 않을까 해서 넣음
     for (int i = 0; i < clothes.size(); ++i) {
         int ckey = hash <string>{}(clothes[i][ctype]);
-        if (countOfClotheType.find(ckey) != countOfClotheType.end()) {
-            countOfClotheType[ckey]++;
-        } else {
-            countOfClotheType.insert(make_pair(ckey, 1));
-        }
+        countOfClotheType[ckey]++;
     }
-    //순열 계산
-    // cout << " >> 파악된 옷 종류 : " << countOfClotheType.size() << endl;
-    // for (map < int, int >::iterator it = countOfClotheType.begin();
-    //       it != countOfClotheType.end(); ++it) {
-    //           cout << "옷 태그( " << it-> first << ") , 개수 : " <<  it -> second << endl;
-    //       }
-    // int answer = 0;
-    //값 계산
-    int answer = 0;
+    int answer = 1;
+    //2. 카운팅
+    /*
+      * 주머니 A, B 에서 구슬꺼내는 가지수 구하기
+      * A 주머니 = 9개
+      * B 주머니 = 5개
+      * 10 * 6 - 1 = 59가지
+      * 구슬 9개 + 하나도 안 꺼내는 수 = 10
+      * 구슬 5개 + 하나도 안 꺼내는 수 = 6
+      * - 1 = 둘 다 안 꺼내는 수
+    */
     for (map < int , int >::iterator it = countOfClotheType.begin();
         it != countOfClotheType.end(); ++ it ) {
-            // cout << " cate1 : " << it -> first << endl;
-            // cout << " cate1_num :" << it -> second <<endl;
-            answer += (it-> second);
-            map < int, int >::iterator it2 = it;
-            while(++it2 != countOfClotheType.end()) {
-                // cout << "cate2 : " << it2 -> first << endl;
-                // cout << "cate2_num : " << it2 -> second << endl;
-                answer += (it -> second) * (it2 -> second);
-            }
-            // cout << ">> current_answer :" << answer << endl;
-            // cout << endl;
+            answer *= (it -> second) + 1;
         }
     // cout << " >> 정답 : " << answer << endl;
-    return answer;
+    return answer - 1;
 }

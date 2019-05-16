@@ -18,15 +18,15 @@ import java.util.Scanner;
 // 의상의 이름과 종류를 저장하는 객체.
 class Clothes{
 	private String[][] clothes;
-	
+
 	public Clothes(int N) {
 		clothes = new String[N][2];
 	}
-	
+
 	public String[][] getClothes() {
 		return clothes;
 	}
-	
+
 	public void setClothes(int i, String clothesName, String clothesType) {
 		clothes[i][0] = clothesName;
 		clothes[i][1] = clothesType;
@@ -56,7 +56,7 @@ class Clothes{
 class Solution{
 	public int solution(String[][] clothes) {
 		int answer = 1;
-		
+
 		// HashMap Key에 의상 종류, Value에 의상 수를 저장한다.
 		HashMap<String, Integer> hm = new HashMap<>();
 		for(int i = 0; i < clothes.length; i++) {
@@ -69,22 +69,22 @@ class Solution{
 			answer *= hm.get(o) + 1;
 		}
 		answer--;
-		
-/*		// 의상 종류를 ArrayList에 따로 저장한다. 
+
+/*		// 의상 종류를 ArrayList에 따로 저장한다.
 		ArrayList<Object> arr = new ArrayList<>();
 		for(Object o : hm.keySet()) {
 			arr.add(o);
 		}
-		
+
 		// 가능한 의상 종류 조합에서 의상 종류 별 의상 수를 저장할 배열.
 		int[] intArr = new int[hm.size()];
 		for(int i = 1; i <= hm.size(); i++) {
 			answer = comb(intArr, 0, i, hm, arr, 0, answer);
 		}*/
-		
+
 		return answer;
 	}
-	
+
 /*	public int comb(int[] intArr, int index, int r, HashMap<String, Integer> hm, ArrayList<Object> arr, int target, int answer) {
 		if(r == 0) {
 			int temp = 1;
@@ -100,7 +100,7 @@ class Solution{
 			answer = comb(intArr, index + 1, r - 1, hm, arr, target + 1, answer);
 			answer = comb(intArr, index, r, hm, arr, target + 1, answer);
 		}
-		
+
 		return answer;
 	}*/
 }
@@ -109,17 +109,17 @@ public class PH3 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int T = sc.nextInt();
-		
+
 		for(int testCase = 0; testCase < T; testCase++) {
 			int N = sc.nextInt();
 			Clothes clo = new Clothes(N);
 			for(int i = 0; i < N; i++) {
 				clo.setClothes(i, sc.next(), sc.next());
 			}
-			
+
 			Solution sol = new Solution();
 			System.out.println(sol.solution(clo.getClothes()));
-			
+
 		}
 	}
 }
