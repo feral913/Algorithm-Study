@@ -1,0 +1,38 @@
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/levelTest/최소공배수찾기.cpp: In function ‘int main()’:
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/levelTest/최소공배수찾기.cpp:10:21: warning: extended initializer lists only available with -std=c++11 or -std=gnu++11
+     vector <int> arr{2,4,10,6,24};
+                     ^
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/levelTest/최소공배수찾기.cpp:10:33: error: in C++98 ‘arr’ must be initialized by constructor, not by ‘{...}’
+     vector <int> arr{2,4,10,6,24};
+                                 ^
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/levelTest/최소공배수찾기.cpp:10:33: error: no matching function for call to ‘std::vector<int>::vector(<brace-enclosed initializer list>)’
+In file included from /usr/include/c++/5/vector:64:0,
+                 from /home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/levelTest/최소공배수찾기.cpp:2:
+/usr/include/c++/5/bits/stl_vector.h:407:9: note: candidate: template<class _InputIterator> std::vector<_Tp, _Alloc>::vector(_InputIterator, _InputIterator, const allocator_type&)
+         vector(_InputIterator __first, _InputIterator __last,
+         ^
+/usr/include/c++/5/bits/stl_vector.h:407:9: note:   template argument deduction/substitution failed:
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/levelTest/최소공배수찾기.cpp:10:33: note:   cannot convert ‘10’ (type ‘int’) to type ‘const allocator_type& {aka const std::allocator<int>&}’
+     vector <int> arr{2,4,10,6,24};
+                                 ^
+In file included from /usr/include/c++/5/vector:64:0,
+                 from /home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/levelTest/최소공배수찾기.cpp:2:
+/usr/include/c++/5/bits/stl_vector.h:318:7: note: candidate: std::vector<_Tp, _Alloc>::vector(const std::vector<_Tp, _Alloc>&) [with _Tp = int; _Alloc = std::allocator<int>]
+       vector(const vector& __x)
+       ^
+/usr/include/c++/5/bits/stl_vector.h:318:7: note:   candidate expects 1 argument, 5 provided
+/usr/include/c++/5/bits/stl_vector.h:303:7: note: candidate: std::vector<_Tp, _Alloc>::vector(std::vector<_Tp, _Alloc>::size_type, const value_type&, const allocator_type&) [with _Tp = int; _Alloc = std::allocator<int>; std::vector<_Tp, _Alloc>::size_type = long unsigned int; std::vector<_Tp, _Alloc>::value_type = int; std::vector<_Tp, _Alloc>::allocator_type = std::allocator<int>]
+       vector(size_type __n, const value_type& __value = value_type(),
+       ^
+/usr/include/c++/5/bits/stl_vector.h:303:7: note:   candidate expects 3 arguments, 5 provided
+/usr/include/c++/5/bits/stl_vector.h:264:7: note: candidate: std::vector<_Tp, _Alloc>::vector(const allocator_type&) [with _Tp = int; _Alloc = std::allocator<int>; std::vector<_Tp, _Alloc>::allocator_type = std::allocator<int>]
+       vector(const allocator_type& __a) _GLIBCXX_NOEXCEPT
+       ^
+/usr/include/c++/5/bits/stl_vector.h:264:7: note:   candidate expects 1 argument, 5 provided
+/usr/include/c++/5/bits/stl_vector.h:253:7: note: candidate: std::vector<_Tp, _Alloc>::vector() [with _Tp = int; _Alloc = std::allocator<int>]
+       vector()
+       ^
+/usr/include/c++/5/bits/stl_vector.h:253:7: note:   candidate expects 0 arguments, 5 provided
+/home/uki408/Documents/git/Algorithm_Study_AB/B/Programmers/levelTest/최소공배수찾기.cpp:31:26: error: ‘anwer’ was not declared in this scope
+             arr[i + 1] = anwer;
+                          ^
